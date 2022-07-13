@@ -39,7 +39,7 @@ func Start() error {
 func startConsumer(client pulsar.Client) {
 	consumer, err := client.Subscribe(pulsar.ConsumerOptions{
 		Topic:            conf.PulsarTopic,
-		Type:             pulsar.Failover,
+		Type:             conf.GetPulsarSubscriptionType(),
 		SubscriptionName: conf.PulsarSubscriptionName,
 	})
 	if err != nil {

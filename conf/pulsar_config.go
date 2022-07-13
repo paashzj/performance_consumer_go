@@ -18,8 +18,10 @@
 package conf
 
 import (
+	"github.com/apache/pulsar-client-go/pulsar"
 	"github.com/paashzj/gutil"
 	"os"
+	"strings"
 )
 
 var (
@@ -27,4 +29,18 @@ var (
 	PulsarPort             = gutil.GetEnvInt("PULSAR_PORT", 6650)
 	PulsarTopic            = os.Getenv("PULSAR_TOPIC")
 	PulsarSubscriptionName = os.Getenv("PULSAR_SUBSCRIPTION_NAME")
+	pulsarSubscriptionType = os.Getenv("PULSAR_SUBSCRIPTION_TYPE")
 )
+
+func GetPulsarSubscriptionType() pulsar.SubscriptionType {
+	pulsarSubscriptionType = strings.ToLower(pulsarSubscriptionType)
+	if pulsarSubscriptionType == "shared" {
+		return pulsar.Shared
+	} else if pulsarSubscriptionType == "keyshared" {
+		return pulsar.KeyShared
+	} else if pulsarSubscriptionType == "exclusive" {
+		return pulsar.Exclusive
+	} else {
+		return pulsar.Failover
+	}
+}
