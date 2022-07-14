@@ -50,6 +50,7 @@ func startConsumer(client pulsar.Client) {
 		if err != nil {
 			logrus.Errorf("receive message %s error: %v", conf.PulsarTopic, err)
 		} else {
+			consumer.Ack(msg)
 			logrus.Debugf("receive message %s success, messageID: %s", conf.PulsarTopic, msg.ID())
 		}
 	}
